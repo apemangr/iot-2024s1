@@ -1,3 +1,5 @@
+import serial
+
 def crc16_ccitt_false_hex(data_hex):
     # Convertir la cadena hexadecimal en una secuencia de bytes
     data_bytes = bytes.fromhex(data_hex)
@@ -15,39 +17,48 @@ def crc16_ccitt_false_hex(data_hex):
     
     return crc
 
+puerto = serial.Serial('COM3', 9600, timeout=1)
 
 class Dispositivo:
+    tipo=""
+    id=""
+    checksum=""
+    datos=""
     def __init__(self, linea):
-        self.linea = linea.decode().strip()
+        self.linea = linea
 
-    def obtener_tipo_dispositivo(self):
-        tipo_dispositivo = "Device type: "
+    def __setTipoDispositivo(self):
         if self.linea[3:5] == "01":
-            tipo_dispositivo += "01 Temperatura, "
+            self.tipo += "01 Temperatura"
         else:
-            tipo_dispositivo += "02 Humedad, "
-        return tipo_dispositivo
+            self.tipo += "02 Humedad"
+        return self.tipo
 
-    def obtener_id(self):
-        return "ID: " + str(int(self.linea[6:8], 16))
+    def __setId(self):
+        self.id = str(int(self.linea[6:8], 16))
+        return self.id
 
-    def obtener_datos(self):
-        datos = ""
-        if self.linea[3:5] == "01":
-            datos += ", Temperatura relativa: " + str(int(self.linea[12:15], 16)) + "% "
-        else:
-            datos += ", Humedad relativa: " + str(int(self.linea[12:15], 16)) + "% "
-        return datos
-
-    def verificar_checksum(self):
+    def __setChecksum(self):
         crc = crc16_ccitt_false_hex(self.linea[3:14].replace(" ", ""))
         if int(crc) == int(self.linea[15:20].replace(" ", ""), 16):
-            return "Checksum: OK"
+           self.checksum = "Checksum: OK"
         else:
-            return "Checksum: Wrong"
+            self.checksum = "Checksum: Wrong"
+        return self.checksum
+
+    def __obtener_datos(self):
+        if self.linea[3:5] == "01":
+            self.dato =  str(int(self.linea[12:15], 16)) + "%"
+        else:
+            self.dato =  str(int(self.linea[12:15], 16)) + "%"
+        return self.dato
+
+    def getData(self):
+        print('Device type: ', self.__setTipoDispositivo(), ", ID: ", self.__setId(),", Temperatura relativa: ",self.__obtener_datos(),", ",self.__setChecksum())
 
 # Ejemplo de uso:
-test_paquete = b'\x01\x01\x00\x07\xFF\xFF\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\xD0\xC5'
-dispositivo = Dispositivo(test_paquete)
-resultado = dispositivo.obtener_tipo_dispositivo() + dispositivo.obtener_id() + dispositivo.obtener_datos() + dispositivo.verificar_checksum()
-print(resultado)
+paquete = puerto.readline().decode().strip() 
+paquete = puerto.readline().decode().strip() 
+dispositivo = Dispositivo(paquete)
+dispositivo.getData()
+
