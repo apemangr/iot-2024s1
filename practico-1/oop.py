@@ -57,8 +57,13 @@ class Dispositivo:
         print('Device type: ', self.__setTipoDispositivo(), ", ID: ", self.__setId(),", Temperatura relativa: ",self.__obtener_datos(),", ",self.__setChecksum())
 
 # Ejemplo de uso:
-paquete = puerto.readline().decode().strip() 
-paquete = puerto.readline().decode().strip() 
-dispositivo = Dispositivo(paquete)
-dispositivo.getData()
+
+while True:
+    paquete = puerto.readline().decode().strip() 
+    paquete = puerto.readline().decode().strip() 
+    dispositivo = Dispositivo(paquete)
+    dispositivo.getData()
+
+
+
 
