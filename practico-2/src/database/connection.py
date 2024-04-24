@@ -12,7 +12,6 @@ class DbConnection:
         self.dbname = dbname
         self.user = user
         self.password = password
-
     def __conn2db(self):
         try:
             self.connection = pg.connect(
