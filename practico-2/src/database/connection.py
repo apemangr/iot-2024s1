@@ -24,7 +24,6 @@ class DbConnection:
             return self.connection
         except pg.Error as e:
             print('Error de conexion', e)
-            return "Fallo de conexion"  
 
     @property
     def conn(self):

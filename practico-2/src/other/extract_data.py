@@ -2,6 +2,7 @@ class Dispositivo:
     tipo=""
     datos=""
     alarm=True
+
     def __init__(self, linea):
         self.linea = linea
 
@@ -17,6 +18,7 @@ class Dispositivo:
     def getDatos(self):
         self.dato =  int(self.linea[12:15], 16) 
         return self.dato
+
     @property
     def getAlarm(self):
         if self.linea == "01":
