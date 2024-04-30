@@ -12,6 +12,7 @@ class DbConnection:
         self.dbname = dbname
         self.user = user
         self.password = password
+
     def __conn2db(self):
         try:
             self.connection = pg.connect(
@@ -20,9 +21,10 @@ class DbConnection:
                 user = self.user,
                 password = self.password
                     )
-            return "Conexion exitosa"
-        except:
-            return "Fallo de conexion"
+            return self.connection
+        except pg.Error as e:
+            print('Error de conexion', e)
+            return "Fallo de conexion"  
 
     @property
     def conn(self):
@@ -30,10 +32,22 @@ class DbConnection:
         return self.connection
 
     def getQuery(self, query):
-        self.__conn2db()
-        return pd.read_sql_query(query ,self.connection)
+        read = pd.read_sql_query(query ,self.conn)
+        return read
 
-postgres = DbConnection(os.getenv('HOSTDB'),
+    def transaction(self, query):
+        try:
+            conn = self.conn
+            cur = conn.cursor()
+            cur.execute(query)
+            conn.commit()
+            cur.close()
+            return  "escritura completa" 
+        except pg.Error as e:
+            print('falla de escritura',e)
+
+
+post = DbConnection(os.getenv('HOSTDB'),
                     os.getenv('PORTOUT'),
                     os.getenv('POSTGRES_DB'),
                     os.getenv('POSTGRES_USER'),

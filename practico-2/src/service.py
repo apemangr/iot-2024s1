@@ -7,51 +7,39 @@ class Service:
        self.db = db
 
     def createNode(self):
-        try:
-            cur = self.db.conn.cursor()
-            cur.execute("SET TIMEZONE = 'America/Santiago'")
-            cur.execute('INSERT INTO node_data(sampletime) SELECT CURRENT_TIME')
-            self.db.conn.commit()
-            return "Write successful"
-        except:
-            return "error in porcess of write"
+        self.db.transaction("INSERT INTO node_data(sampletime) VALUES (CURRENT_TIMESTAMP)")
 
-    def createTemp(self,node: NodeClass):
+    def create(self,node: NodeClass):
         try: 
-            cur = self.db.conn.cursor()
             for x in node.hum:
-                cur.execute(f'INSERT INTO Humidity(node_id,humidity, alarm) VALUES({node.id},{x.hum},{x.alarm})')
-                self.db.conn.commit()
+                self.db.transaction(str(f'INSERT INTO humidity(node_data_id,humidity, alarm) VALUES({node.id},{x.hum},{x.alarm})'))
             for x in node.tem:
-                cur.execute(f'INSERT INTO Temperature(node_id,temperature, alarm) VALUES({node.id},{x.tem},{x.alarm})')
-                self.db.conn.commit()
+                self.db.transaction(str(f'INSERT INTO temperature(node_data_id,temperature, alarm) VALUES({node.id},{x.tem},{x.alarm})'))
             return "Write successful"
         except:
             return "error in porcess of write"
 
     def remove(self,id: int):
        try: 
-          cur = self.db.conn.cursor()
-          cur.execute(F'DELETE FROM node_data WHERE id = {id}')
-          self.db.conn.commit()
+          self.db.transaction(F'DELETE FROM node_data WHERE id = {id}')
           return "Delete successful"
        except:
             return "error in porcess of Delete"
 
     def getOneById(self,id: int):
-        return self.db.getQuery(F'SELECT * FROM node_data n INNER JOIN temperature t ON t.node_id = n.id INNER JOIN humidity h ON h.node_id = n.id WHERE n.id = {id} ')
+        return self.db.getQuery(str(F'SELECT * FROM node_data n INNER JOIN temperature t ON t.node_data_id = n.id INNER JOIN humidity h ON h.node_data_id = n.id WHERE n.id = {id}'))
 
     def getOneByHour(self,hrs: date):
-        return self.db.getQuery(F'SELECT * FROM node_data n INNER JOIN temperature t ON t.node_id = n.id INNER JOIN humidity h ON h.node_id = n.id WHERE n.sample_time = {hrs} ')
+        return self.db.getQuery(F'SELECT * FROM node_data n INNER JOIN temperature t ON t.node_data_id = n.id INNER JOIN humidity h ON h.node_data_id = n.id WHERE n.sample_time = {hrs} ')
 
     def getAllFromTemperature(self, temp: float):
-        return self.db.getQuery(F'SELECT * FROM node_data n INNER JOIN temperature t ON t.node_id = n.id WHERE t.temperature = {temp} ')
+        return self.db.getQuery(F'SELECT * FROM node_data n INNER JOIN temperature t ON t.node_data_id = n.id WHERE t.temperature = {temp} ')
 
     def getAllFromHumidity(self, hum: float):
-        return self.db.getQuery(F'SELECT * FROM node_data n INNER JOIN humidity h ON h.node_id = n.id WHERE h.humidity = {hum} ')
+        return self.db.getQuery(str(F'SELECT * FROM node_data n INNER JOIN humidity h ON h.node_data_id = n.id WHERE h.humidity = {hum}'))
 
     def getAll(self):
-       return self.db.getQuery('SELECT * From node')
+       return self.db.getQuery(str('SELECT * From node_data'))
 
 
 
