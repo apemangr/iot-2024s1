@@ -43,5 +43,11 @@ class Service:
     def getAll(self):
        return self.db.getQuery(str('SELECT * From node_data'))
 
+    def getAllTemperatures(self):
+       return self.db.getQuery(str('SELECT * From node_data n INNER JOIN temperature t ON t.node_data_id = n.id'))
+
+    def getAllHumidity(self):
+       return self.db.getQuery(str('SELECT * From node_data n INNER JOIN humidity h ON h.node_data_id = n.id'))
+
 
 
