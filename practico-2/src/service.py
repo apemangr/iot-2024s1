@@ -1,6 +1,6 @@
 from pandas.core.dtypes.dtypes import date
-from ..database.connection import DbConnection
-from ..entities.node import NodeClass
+from database.connection import DbConnection
+from entities.node import NodeClass
 
 class Service:
     def __init__(self, db: DbConnection):
