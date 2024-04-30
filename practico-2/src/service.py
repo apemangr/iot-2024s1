@@ -1,5 +1,5 @@
 from pandas.core.dtypes.dtypes import date
-from database.connection import DbConnection
+from database.connection import *
 from entities.node import NodeClass
 
 class Service:
@@ -11,13 +11,15 @@ class Service:
 
     def create(self,node: NodeClass):
         try: 
-            for x in node.hum:
-                self.db.transaction(str(f'INSERT INTO humidity(node_data_id,humidity, alarm) VALUES({node.id},{x.hum},{x.alarm})'))
-            for x in node.tem:
-                self.db.transaction(str(f'INSERT INTO temperature(node_data_id,temperature, alarm) VALUES({node.id},{x.tem},{x.alarm})'))
-            return "Write successful"
-        except:
-            return "error in porcess of write"
+            if node.hum != []:
+                for x in node.hum:
+                    self.db.transaction(str(f'INSERT INTO humidity(node_data_id,humidity, alarm) VALUES({node.id},{x.hum},{x.alarm})'))
+            if node.tem != []:
+                for y in node.tem:
+                    self.db.transaction(str(f'INSERT INTO temperature(node_data_id,temperature, alarm) VALUES({node.id},{y.tem},{y.alarm})'))
+                return "Write successful"
+        except pg.Error as e:
+            return e
 
     def remove(self,id: int):
        try: 

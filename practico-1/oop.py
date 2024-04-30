@@ -17,7 +17,7 @@ def crc16_ccitt_false_hex(data_hex):
     
     return crc
 
-puerto = serial.Serial('COM3', 9600, timeout=1)
+puerto = serial.Serial('/dev/ttyACM0', 57600, timeout=1)
 
 class Dispositivo:
     tipo=""
@@ -61,8 +61,9 @@ class Dispositivo:
 while True:
     paquete = puerto.readline().decode().strip() 
     paquete = puerto.readline().decode().strip() 
-    dispositivo = Dispositivo(paquete)
-    dispositivo.getData()
+    if paquete != '':
+        dispositivo = Dispositivo(paquete)
+        dispositivo.getData()
 
 
 
