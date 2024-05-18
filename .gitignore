@@ -1,6 +1,9 @@
- ./practico-2/.env
- ./practico-2/env
- ./practico2-env/*
+./practico-2/.env
+./practico-2/env
+./practico2-env/*
+./practico-3/env
+./practico1-env/*
 practico2-env/
 practico-2/env/
+practico-3/env/*
 practico-2/.env
