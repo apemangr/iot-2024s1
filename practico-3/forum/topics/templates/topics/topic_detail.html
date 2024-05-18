@@ -1,0 +1,26 @@
+{% extends 'topics/base.html' %}
+
+{% block content %}
+<h1>{{ topic.title }}</h1>
+<p>{{ topic.content }}</p>
+
+<h2>Respuestas</h2>
+<ul class="list-group">
+    {% for response in responses %}
+        <li class="list-group-item">
+            <p>{{ response.content }}</p>
+            <small>Por {{ response.author_name }} el {{ response.created_at }}</small>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3>Agregar Respuesta</h3>
+<form method="post" class="w-50">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+<a href="{% url 'topic_delete' topic.pk %}" class="btn btn-danger mt-3">Eliminar Tópico</a>
+
+{% endblock %}

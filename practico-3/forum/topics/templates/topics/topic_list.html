@@ -1,0 +1,17 @@
+{% extends 'topics/base.html' %}
+
+{% block content %}
+<img src="https://www.pngmart.com/files/21/Internet-Of-Things-IOT-Vector-PNG-Picture.png" width="25%">
+<h1>Todos los Tópicos</h1>
+<a class="btn btn-primary" href="{% url 'topic_create' %}">Crear Nuevo Tópico</a>
+<p>Número de tópicos: {{ topics.count }}</p>
+<ul class="list-group mt-4">
+    {% for topic in topics %}
+        <li class="list-group-item">
+            <a href="{% url 'topic_detail' topic.pk %}">{{ topic.title }}</a>
+            <p>{{ topic.content|truncatewords:20 }}</p>
+            <small>Última respuesta: {% if topic.responses.last %}{{ topic.responses.last.created_at }}{% else %}No hay respuestas{% endif %}</small>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
