@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Guille Rojas\Desktop\iot-2024s1\.venv"
+VIRTUAL_ENV="C:\Users\Guille Rojas\Desktop\iot-2024s1\practico-3\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
