@@ -1,0 +1,42 @@
+
+<!-- charts/templates/charts/stock_chart.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ ticker }} Stock Prices</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>{{ ticker }} Stock Prices</h1>
+    <canvas id="stockChart" width="400" height="200"></canvas>
+    <script>
+        const ctx = document.getElementById('stockChart').getContext('2d');
+        const dates = {{ dates|safe }};
+        const prices = {{ prices|safe }};
+        
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: '{{ ticker }} Closing Prices',
+                    fill: true,
+                    data: prices,
+                    pointRadius: 0,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero:false 
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 """
-WSGI config for conversor project.
+WSGI config for stock_prices project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'conversor.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stock_prices.settings')
 
 application = get_wsgi_application()
