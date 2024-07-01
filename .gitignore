@@ -9,5 +9,9 @@ practico-3/env/*
 practico-2/.env
 ./practico-3/.venv
 practico-3/.venv/*
+proyecto-final/stock_prices/env/*
+proyecto-final/stock_prices/env
+./proyecto-final/stock_prices/env
+./proyecto-final/stock_prices/env/*
 
 

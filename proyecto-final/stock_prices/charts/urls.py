@@ -2,8 +2,8 @@
 # charts/urls.py
 
 from django.urls import path
-from .views import stock_chart
+from .views import StockChartView
 
 urlpatterns = [
-    path('stock/<str:ticker>/', stock_chart, name='stock_chart'),
+    path('stock/', StockChartView.as_view(), name='stock_chart'),
 ]
