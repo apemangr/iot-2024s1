@@ -1,0 +1,93 @@
+<!-- templates/welcome.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a nuestra plataforma de precios de acciones</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: right;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px; /* Tamaño de fuente más pequeño */
+        }
+        .button {
+            margin-left: 10px;
+        }
+        .container {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+footer {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+<img src="https://png.pngtree.com/png-vector/20190916/ourmid/pngtree-graph-icon-for-your-project-png-image_1731094.jpg" alt="" style="width: 100px;">
+
+        </div>
+        <div class="container">
+            <h1>Bienvenido a nuestra plataforma de precios de acciones</h1>
+        </div>
+        <div class="container">
+            <div class="row justify-content-end">
+                <a href="{% url 'login' %}" class="btn btn-primary button">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-secondary button">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+<div class="col-md-4">
+                    <img src="https://static.tradingview.com/static/bundles/tab-linking.ebba40a63297ef9a1b51.png" alt="Descripción de la imagen" style="width: 500px;">
+                </div>
+                <p></p>
+                <p>En nuestra plataforma, te ofrecemos una experiencia intuitiva y visualmente atractiva para explorar y analizar datos de precios de acciones de diversas empresas. Con herramientas avanzadas de visualización, podrás:</p>
+                <h2>Observar tendencias</h2>
+                <p>Examina la evolución histórica de los precios de acciones a través de gráficos interactivos que muestran datos diarios, semanales, mensuales y anuales.</p>
+                <h2>Comparar Rendimientos</h2>
+                <p>Compara el rendimiento de múltiples acciones en un solo vistazo, utilizando gráficos de líneas, barras y velas.</p>
+                <h2>Personalizar Análisis</h2>
+                <p>Ajusta los parámetros de visualización y período de tiempo para adaptar los gráficos a tus necesidades específicas de análisis y seguimiento de mercado.
+                <h2>Acceso a Datos Precisos</h2>
+                <p>Utilizamos fuentes de datos confiables para asegurar que tengas acceso a la información más actualizada y precisa.</p>
+                    <img src="https://static.tradingview.com/static/bundles/interactive.718bf4e2430c026ff298.png" alt="Descripción de la imagen" style="width: 500px;">
+</p>
+                            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Todos los derechos reservados © 2024</p>
+    </footer>
+
+    <!-- Bootstrap JS y dependencias opcionales -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

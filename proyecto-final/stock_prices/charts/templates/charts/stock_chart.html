@@ -1,16 +1,120 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title></title>
-    <link href="css/style.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div>
-      {% if chart %} {{ chart|safe }} {% else %}
-      <p>No data available</p>
-      {% endif %}
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plataforma de Gráficos de Acciones</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #a9a9a9; /* Color de fondo gris más oscuro para toda la página */
+        }
+        header {
+            background-color: #a9a9a9; /* Color de fondo gris más oscuro para el encabezado */
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #999; /* Border for better visual separation */
+        }
+        .header-title {
+            margin: 0; /* Eliminar margen del h2 por defecto */
+        }
+        .header-button {
+            margin-left: auto; /* Empujar el botón hacia la derecha */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Encabezado -->
+    <header>
+        <h2 class="header-title">Bienvenido, {{ user.username }}!</h2>
+        <form action="{% url 'logout' %}" method="post" class="header-button">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Cerrar Sesión</button>
+        </form>
+    </header>
+
+    <!-- Formulario para actualizar gráficos -->
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="period">Período:</label>
+            <select class="form-control" id="period" name="period" onchange="updateIntervalOptions()">
+                <option value="1d" {% if selected_period == "1d" %} selected {% endif %}>1 día</option>
+                <option value="1mo" {% if selected_period == "1mo" %} selected {% endif %}>1 mes</option>
+                <option value="3mo" {% if selected_period == "3mo" %} selected {% endif %}>3 meses</option>
+                <option value="6mo" {% if selected_period == "6mo" %} selected {% endif %}>6 meses</option>
+                <option value="1y" {% if selected_period == "1y" %} selected {% endif %}>1 año</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="interval">Intervalo:</label>
+            <select class="form-control" id="interval" name="interval">
+                <option value="1m" {% if selected_interval == "1m" %} selected {% endif %}>1 minuto</option>
+                <option value="5m" {% if selected_interval == "5m" %} selected {% endif %}>5 minutos</option>
+                <option value="15m" {% if selected_interval == "15m" %} selected {% endif %}>15 minutos</option>
+                <option value="30m" {% if selected_interval == "30m" %} selected {% endif %}>30 minutos</option>
+                <option value="1h" {% if selected_interval == "1h" %} selected {% endif %}>1 hora</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="stocks">Seleccionar acciones:</label>
+            <select class="form-control" id="stocks" name="stocks" multiple>
+                {% for stock in all_stocks %}
+                    <option value="{{ stock }}" {% if stock in selected_stocks %} selected {% endif %}>{{ stock }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar Gráficos</button>
+    </form>
+</div>
+
+<div>
+    {% if chart %}
+        {{ chart|safe }}
+    {% else %}
+        <p>No hay datos disponibles.</p>
+    {% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function updateIntervalOptions() {
+        var period = document.getElementById('period').value;
+        var interval = document.getElementById('interval');
+        var intervals = {
+            '1d': ['1m', '5m', '15m', '30m', '1h'],
+            '1mo': ['1h', '1d'],
+            '3mo': ['1h', '1d'],
+            '6mo': ['1h', '1d'],
+            '1y': ['1d'],
+            '5y': ['1wk'],
+            '10y': ['1mo']
+        };
+
+        var selected_intervals = intervals[period];
+        interval.innerHTML = '';
+
+        for (var i = 0; i < selected_intervals.length; i++) {
+            var option = document.createElement('option');
+            option.value = selected_intervals[i];
+            option.text = selected_intervals[i];
+            interval.appendChild(option);
+        }
+    }
+
+    // Inicializa las opciones de intervalo cuando se carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+        updateIntervalOptions();
+    });
+</script>
+
+</body>
 </html>
+

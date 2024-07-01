@@ -1,20 +1,76 @@
-<!-- accounts/templates/accounts/register.html -->
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Register</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header-text {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .container {
+            flex: 1;
+            padding-bottom: 50px; /* Space for the footer */
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: relative;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2 class="my-4">Register</h2>
-        <form method="post" class="needs-validation" novalidate>
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+    <header class="bg-dark text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img src="https://png.pngtree.com/png-vector/20190916/ourmid/pngtree-graph-icon-for-your-project-png-image_1731094.jpg" alt="" style="width: 100px;">
+                    <span class="header-text">Regístrate para acceder a tus gráficos.</span>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Volver al inicio</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <div class="login-form">
+            <h2 class="my-4">Registrarse</h2>
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-block">Login</a>
+            </form>
+        </div>
     </div>
+
+    <footer>
+        <p>Todos los derechos reservados © 2024</p>
+    </footer>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
